@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Store.Models.ViewModels.Cart.CartVM>
+
+@{
+    ViewBag.Title = "Cart Details";
+}
+
+<h2>Cart Details</h2>
+@if (ViewBag.Message != null)
+{
+    <h3>@ViewBag.Message</h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                ProductName
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Image
+            </th>
+            <th><!-- Ячейка для кнопок изменения количества товаров--></th>
+            <th>
+                Total
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td class="qty@(item.ProductId)">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)$
+                </td>
+                <td>
+                    @if (@item.Image == null)
+                    {
+                        <img src="~/Content/img/no_image.png" />
+                    }
+                    else
+                    {
+                        <img src="/Images/Uploads/Products/@item.ProductId/Thumbs/@item.Image" />
+                    }
+                </td>
+                <td>
+                    <a href="#" class="incproduct btn btn-outline-primary" data-id="@item.ProductId">+</a>
+                    <a href="#" class="decproduct btn btn-outline-primary" data-id="@item.ProductId">-</a>
+                    <a href="#" class="removeproduct btn btn-outline-danger" data-id="@item.ProductId">remove</a>
+                </td>
+                <td class="total@(item.ProductId)">
+                    @Html.DisplayFor(modelItem => item.Total)$
+                </td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="grandtotal"><b>Total:</b><span>@ViewBag.GrandTotal</span>$</td>
+        </tr>
+
+    </table>
+}
+
+@section Scripts
+{
+    <script src="~/Content/ShopJS/IncrementProductJS.js"></script>
+}
